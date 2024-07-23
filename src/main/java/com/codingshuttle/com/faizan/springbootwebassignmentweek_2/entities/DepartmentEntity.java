@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 import java.time.LocalDate;
 
 @Entity
@@ -18,9 +19,15 @@ import java.time.LocalDate;
 public class DepartmentEntity {
     @Id //pk
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private  Long id;
+    private Long id;
     private String title;
+    private String email;
     @JsonProperty("isActive")
     private Boolean isActive;
     private LocalDate createdAt;
+    private double salary;
+    private LocalDate hiredAt;
+    private String socialId;
+    private String cardNumber;
+
 }

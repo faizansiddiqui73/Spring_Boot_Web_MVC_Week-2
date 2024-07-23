@@ -2,6 +2,11 @@ package com.codingshuttle.com.faizan.springbootwebassignmentweek_2.controller;
 
 import com.codingshuttle.com.faizan.springbootwebassignmentweek_2.dto.DepartmentDTO;
 import com.codingshuttle.com.faizan.springbootwebassignmentweek_2.services.DepartmentService;
+import jakarta.validation.Valid;
+import org.hibernate.annotations.NotFound;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,28 +29,35 @@ public class DepartmentController {
     }
 
     @GetMapping(path = "/departments")
-    public List<DepartmentDTO> getAllDepartments() {
-        return departmentService.getAllDepartments();
+    public ResponseEntity<List<DepartmentDTO>> getAllDepartments() {
+        return ResponseEntity.ok(departmentService.getAllDepartments());
+//        return departmentService.getAllDepartments();
     }
 
     @PostMapping(path = "/departments")
-    public DepartmentDTO createDepartment(@RequestBody DepartmentDTO inputDepartment) {
-        return departmentService.createDepartment(inputDepartment);
+    public ResponseEntity<DepartmentDTO> createDepartment(@RequestBody @Valid DepartmentDTO inputDepartment) {
+        return new ResponseEntity<>(departmentService.createDepartment(inputDepartment),HttpStatus.CREATED);
+//        return departmentService.createDepartment(inputDepartment);
     }
 
     @PutMapping(path = "/departments")
-    public DepartmentDTO updateDepartment(@RequestBody DepartmentDTO departmentDTO) {
-        return departmentService.updateDepartment(departmentDTO);
+    public ResponseEntity<DepartmentDTO> updateDepartment(@RequestBody @Valid DepartmentDTO departmentDTO) {
+        return new ResponseEntity<>(departmentService.updateDepartment(departmentDTO),HttpStatus.OK);
+//        return departmentService.updateDepartment(departmentDTO);
     }
 
     @DeleteMapping(path = "/departments")
-    public Boolean deleteDepartmentById(@RequestBody DepartmentDTO departmentDTO) {
-        return departmentService.deleteDepartmentById(departmentDTO);
+    public ResponseEntity<Boolean> deleteDepartmentById(@RequestBody DepartmentDTO departmentDTO) {
+        Boolean gotDeleted = departmentService.deleteDepartmentById(departmentDTO);
+        if(gotDeleted) return ResponseEntity.ok(true);
+        return ResponseEntity.notFound().build();
+//        return departmentService.deleteDepartmentById(departmentDTO);
     }
 
     @GetMapping(path = "/departments/{departmentId}")
-    public DepartmentDTO getDepartment(@PathVariable(name = "departmentId") Long id) {
-        return departmentService.getDepartment(id);
+    public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable(name = "departmentId") Long id) {
+    return ResponseEntity.ok(departmentService.getDepartment(id));
+//        return departmentService.getDepartment(id);
     }
 
 //    GET: /departments
