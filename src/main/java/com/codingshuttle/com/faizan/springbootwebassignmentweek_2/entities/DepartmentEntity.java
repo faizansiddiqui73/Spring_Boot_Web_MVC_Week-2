@@ -29,5 +29,6 @@ public class DepartmentEntity {
     private LocalDate hiredAt;
     private String socialId;
     private String cardNumber;
+    private Integer primeNumber;
 
 }

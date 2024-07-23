@@ -1,5 +1,6 @@
 package com.codingshuttle.com.faizan.springbootwebassignmentweek_2.dto;
 
+import com.codingshuttle.com.faizan.springbootwebassignmentweek_2.annotations.PrimeNumberValidation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -18,19 +19,22 @@ import java.time.LocalDate;
 public class DepartmentDTO {
     private  Long id;
 
-    @NotEmpty(message = "Department filed cannot be blank") //value size greater than zero
-    @NotNull(message = "No null values are allowed")
+
+    @NotBlank(message = "Department filed cannot be blank")
+    @Size(min = 3, max = 25, message = "Number of characters in title should be in the range of [3,25]")
     private String title;
 
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email field cannot be blank")
     private String email;
 
-    @AssertTrue
+
     @JsonProperty("isActive")
+    @AssertTrue(message = "Department should be active")
     private Boolean isActive;
 
     @PastOrPresent(message = "Department cannot be in future")
+    @NotNull(message = "Field cannot be null")
     private LocalDate createdAt;
 
     @NotNull(message = "Salary filed cannot be empty") //no whitespaces
@@ -52,6 +56,10 @@ public class DepartmentDTO {
     @NotNull(message = "Null values not allowed")
     private String cardNumber;
 
+    @PrimeNumberValidation(message = "Field must be a prime number")
+    @NotNull(message = "Field cannot be null")
+    private Integer primeNumber;
+
 //lombok will handle the getters and setters
 
     //For API Checking
@@ -60,11 +68,12 @@ public class DepartmentDTO {
   "title" : "Electronics",
   "email" : "electronics@gmail.com",
   "isActive":true,
-  "createdAt":"2024-07-24",
-  "salary" : 54000,
+  "createdAt":"2024-07-23",
+  "salary" : 54000.00,
   "hiredAt":"2021-09-09",
-  "socialId":"https://instagram.com/electronics",
-  "cardNumber": "463478452545"
+  "socialId": "https://instagram.com/electronics",
+  "cardNumber": "5105105105105100",
+  "primeNumber": 2
 }
      */
 
