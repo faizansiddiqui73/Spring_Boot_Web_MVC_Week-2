@@ -7,7 +7,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,9 +33,27 @@ public class DepartmentService {
     }
 
 
-    public DepartmentDTO createDepartment(DepartmentEntity inputDepartment) {
-        DepartmentEntity departmentEntity = departmentRepository.save(inputDepartment);
+    public DepartmentDTO createDepartment(DepartmentDTO inputDepartment) {
+        //convert
+        DepartmentEntity  toSaveDepartment = modelMapper.map(inputDepartment,DepartmentEntity.class);
+        DepartmentEntity departmentEntity = departmentRepository.save(toSaveDepartment);
         return modelMapper.map(departmentEntity,DepartmentDTO.class);
+    }
+
+    public DepartmentDTO updateDepartment(Long departmentId, DepartmentDTO updateDepartmemnt) {
+        //find
+//         DepartmentEntity findingDepartment = departmentRepository.findById(departmentId).orElse(null);
+         DepartmentEntity conversionToEntity = modelMapper.map(updateDepartmemnt,DepartmentEntity.class);
+         conversionToEntity.setId(departmentId);
+         DepartmentEntity toSaveEntity = departmentRepository.save(conversionToEntity);
+         return modelMapper.map(conversionToEntity,DepartmentDTO.class);
+    }
+
+    public Boolean deleteDepartmentById(Long departmentId) {
+        Boolean exits = departmentRepository.existsById(departmentId);
+        if(!exits) return false;
+        else departmentRepository.deleteById(departmentId);
+        return true;
     }
 }
 
