@@ -2,6 +2,7 @@ package com.codingshuttle.com.faizan.springbootwebassignmentweek_2.services;
 
 import com.codingshuttle.com.faizan.springbootwebassignmentweek_2.dto.DepartmentDTO;
 import com.codingshuttle.com.faizan.springbootwebassignmentweek_2.entities.DepartmentEntity;
+import com.codingshuttle.com.faizan.springbootwebassignmentweek_2.exceptions.ResourceNotFoundException;
 import com.codingshuttle.com.faizan.springbootwebassignmentweek_2.repositories.DepartmentRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -41,11 +42,15 @@ public class DepartmentService {
         DepartmentEntity departmentEntity = departmentRepository.save(toSaveDepartment);
         return modelMapper.map(departmentEntity,DepartmentDTO.class);
     }
+    public boolean isExistsByDepartment(Long departmentId){
+        boolean exists = departmentRepository.existsById(departmentId);
+        if(!exists) throw new ResourceNotFoundException("Department Not Found " + departmentId);
+    }
 
     public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO) {
         Long departmentId = departmentDTO.getId();
-        //find
-         DepartmentEntity findingDepartment = departmentRepository.findById(departmentId).orElse(null);
+        isExistsByDepartment(departmentId);
+//       DepartmentEntity findingDepartment = departmentRepository.findById(departmentId).orElse(null);
          DepartmentEntity conversionToEntity = modelMapper.map(departmentDTO,DepartmentEntity.class);
          conversionToEntity.setId(departmentId);
          DepartmentEntity toSaveEntity = departmentRepository.save(conversionToEntity);
@@ -54,9 +59,9 @@ public class DepartmentService {
 
     public Boolean deleteDepartmentById(DepartmentDTO departmentDTO) {
         Long departmentId = departmentDTO.getId();
-        Boolean exits = departmentRepository.existsById(departmentId);
-        if(!exits) return false;
-        else departmentRepository.deleteById(departmentId);
+        isExistsByDepartment(departmentId);
+//        Boolean exits = departmentRepository.existsById(departmentId);
+        departmentRepository.deleteById(departmentId);
         return true;
     }
 }
