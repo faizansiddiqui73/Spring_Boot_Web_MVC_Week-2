@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,9 +28,10 @@ public class DepartmentService {
                 .collect(Collectors.toList());
     }
 
-    public DepartmentDTO getDepartment(Long id) {
-        DepartmentEntity departmentEntity = departmentRepository.findById(id).orElse(null);
-        return modelMapper.map(departmentEntity,DepartmentDTO.class);
+    public Optional<DepartmentDTO> getDepartment(Long id) {
+        return departmentRepository.findById(id).map(departmentEntity -> modelMapper.map(departmentEntity,DepartmentDTO.class));
+//        DepartmentEntity departmentEntity = departmentRepository.findById(id).orElse(null);
+//        return modelMapper.map(departmentEntity,DepartmentDTO.class);
     }
 
 

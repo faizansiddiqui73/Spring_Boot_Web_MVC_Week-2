@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 
 @RestController
@@ -36,33 +38,38 @@ public class DepartmentController {
 
     @PostMapping(path = "/departments")
     public ResponseEntity<DepartmentDTO> createDepartment(@RequestBody @Valid DepartmentDTO inputDepartment) {
-        return new ResponseEntity<>(departmentService.createDepartment(inputDepartment),HttpStatus.CREATED);
+        return new ResponseEntity<>(departmentService.createDepartment(inputDepartment), HttpStatus.CREATED);
 //        return departmentService.createDepartment(inputDepartment);
     }
 
     @PutMapping(path = "/departments")
     public ResponseEntity<DepartmentDTO> updateDepartment(@RequestBody @Valid DepartmentDTO departmentDTO) {
-        return new ResponseEntity<>(departmentService.updateDepartment(departmentDTO),HttpStatus.OK);
+        return new ResponseEntity<>(departmentService.updateDepartment(departmentDTO), HttpStatus.OK);
 //        return departmentService.updateDepartment(departmentDTO);
     }
 
     @DeleteMapping(path = "/departments")
     public ResponseEntity<Boolean> deleteDepartmentById(@RequestBody DepartmentDTO departmentDTO) {
         Boolean gotDeleted = departmentService.deleteDepartmentById(departmentDTO);
-        if(gotDeleted) return ResponseEntity.ok(true);
+        if (gotDeleted) return ResponseEntity.ok(true);
         return ResponseEntity.notFound().build();
 //        return departmentService.deleteDepartmentById(departmentDTO);
     }
 
     @GetMapping(path = "/departments/{departmentId}")
     public ResponseEntity<DepartmentDTO> getDepartment(@PathVariable(name = "departmentId") Long id) {
-    return ResponseEntity.ok(departmentService.getDepartment(id));
+        Optional<DepartmentDTO> departmentDTO = departmentService.getDepartment(id);
+        return departmentDTO
+                .map(departmentDTO1 -> new ResponseEntity<>(departmentDTO1, HttpStatus.OK))
+                .orElseThrow(() -> new NoSuchElementException("Department Not found"));
 //        return departmentService.getDepartment(id);
     }
 
-//    GET: /departments
-//    POST: /departments
-//    PUT: /departments
-//    DELETE: /departments
-//    GET: /departments/{id}
+    @ExceptionHandler(NoSuchFieldException.class)
+    public ResponseEntity<String> handleDepartmentNotFound(NoSuchElementException exception) {
+        return new ResponseEntity<>("Element not found Exception",HttpStatus.NOT_FOUND);
+    }
+
+//    IllegalArgumentException
+
 }
