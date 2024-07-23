@@ -30,5 +30,6 @@ public class DepartmentEntity {
     private String socialId;
     private String cardNumber;
     private Integer primeNumber;
+    private String password;
 
 }
