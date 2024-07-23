@@ -8,42 +8,49 @@ import java.util.List;
 
 
 @RestController
-//@RequestMapping(path = "/departments")
+@RequestMapping(path = "/departments")
 public class DepartmentController {
-    private final  DepartmentService departmentService;
-    public DepartmentController(DepartmentService departmentService){
+    private final DepartmentService departmentService;
+
+    public DepartmentController(DepartmentService departmentService) {
         this.departmentService = departmentService;
     }
 
     String msg = "Hello from Spring Boot server";
+
     @GetMapping(path = "/")
-    public String getServer(){
+    public String getServer() {
         return msg;
     }
 
     @GetMapping(path = "/departments")
-    public List<DepartmentDTO> getAllDepartments(){
+    public List<DepartmentDTO> getAllDepartments() {
         return departmentService.getAllDepartments();
     }
 
-    @GetMapping(path = "/departments/{departmentId}")
-    public DepartmentDTO getDepartment(@PathVariable (name = "departmentId") Long id) {
-        return departmentService.getDepartment(id);
-    }
-
     @PostMapping(path = "/departments")
-    public DepartmentDTO createDepartment(@RequestBody DepartmentDTO inputDepartment){
+    public DepartmentDTO createDepartment(@RequestBody DepartmentDTO inputDepartment) {
         return departmentService.createDepartment(inputDepartment);
     }
 
-    @PutMapping(path = "/departments/{departmentId}")
-    public DepartmentDTO updateDepartment(@PathVariable Long departmentId,
-            @RequestBody DepartmentDTO updateDepartmentDTO){
-        return departmentService.updateDepartment(departmentId,updateDepartmentDTO);
+    @PutMapping(path = "/departments")
+    public DepartmentDTO updateDepartment(@RequestBody DepartmentDTO departmentDTO) {
+        return departmentService.updateDepartment(departmentDTO);
     }
 
-    @DeleteMapping(path = "/departments/{departmentId}")
-    public Boolean deleteDepartmentById(@PathVariable Long departmentId){
-       return departmentService.deleteDepartmentById(departmentId);
+    @DeleteMapping(path = "/departments")
+    public Boolean deleteDepartmentById(@RequestBody DepartmentDTO departmentDTO) {
+        return departmentService.deleteDepartmentById(departmentDTO);
     }
+
+    @GetMapping(path = "/departments/{departmentId}")
+    public DepartmentDTO getDepartment(@PathVariable(name = "departmentId") Long id) {
+        return departmentService.getDepartment(id);
+    }
+
+//    GET: /departments
+//    POST: /departments
+//    PUT: /departments
+//    DELETE: /departments
+//    GET: /departments/{id}
 }

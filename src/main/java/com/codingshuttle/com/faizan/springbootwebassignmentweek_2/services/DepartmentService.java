@@ -40,16 +40,18 @@ public class DepartmentService {
         return modelMapper.map(departmentEntity,DepartmentDTO.class);
     }
 
-    public DepartmentDTO updateDepartment(Long departmentId, DepartmentDTO updateDepartmemnt) {
+    public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO) {
+        Long departmentId = departmentDTO.getId();
         //find
-//         DepartmentEntity findingDepartment = departmentRepository.findById(departmentId).orElse(null);
-         DepartmentEntity conversionToEntity = modelMapper.map(updateDepartmemnt,DepartmentEntity.class);
+         DepartmentEntity findingDepartment = departmentRepository.findById(departmentId).orElse(null);
+         DepartmentEntity conversionToEntity = modelMapper.map(departmentDTO,DepartmentEntity.class);
          conversionToEntity.setId(departmentId);
          DepartmentEntity toSaveEntity = departmentRepository.save(conversionToEntity);
          return modelMapper.map(conversionToEntity,DepartmentDTO.class);
     }
 
-    public Boolean deleteDepartmentById(Long departmentId) {
+    public Boolean deleteDepartmentById(DepartmentDTO departmentDTO) {
+        Long departmentId = departmentDTO.getId();
         Boolean exits = departmentRepository.existsById(departmentId);
         if(!exits) return false;
         else departmentRepository.deleteById(departmentId);
