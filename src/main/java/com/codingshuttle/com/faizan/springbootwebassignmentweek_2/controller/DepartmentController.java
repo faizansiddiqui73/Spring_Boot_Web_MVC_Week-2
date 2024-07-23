@@ -22,10 +22,10 @@ public class DepartmentController {
         return msg;
     }
 
-//    @GetMapping(path = "/departments")
-//    public List<DepartmentDTO> getAllDepartments(){
-//        return departmentService.getAllDepartments();
-//    }
+    @GetMapping(path = "/departments")
+    public List<DepartmentDTO> getAllDepartments(){
+        return departmentService.getAllDepartments();
+    }
 
     @GetMapping(path = "/departments/{id}")
     public DepartmentDTO getDepartment(@PathVariable Long id) {
@@ -33,7 +33,7 @@ public class DepartmentController {
     }
 
     @PostMapping(path = "/departments")
-    public DepartmentEntity createDepartment(@RequestBody DepartmentEntity inputDepartment){
+    public DepartmentDTO createDepartment(@RequestBody DepartmentEntity inputDepartment){
         return departmentService.createDepartment(inputDepartment);
     }
 }
