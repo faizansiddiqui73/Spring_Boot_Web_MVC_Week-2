@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(path = "/departments")
+//@RequestMapping(path = "/departments")
 public class DepartmentController {
     private final DepartmentService departmentService;
 
