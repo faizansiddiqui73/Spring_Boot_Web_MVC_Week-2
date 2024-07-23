@@ -65,11 +65,6 @@ public class DepartmentController {
 //        return departmentService.getDepartment(id);
     }
 
-    @ExceptionHandler(NoSuchFieldException.class)
-    public ResponseEntity<String> handleDepartmentNotFound(NoSuchElementException exception) {
-        return new ResponseEntity<>("Element not found Exception",HttpStatus.NOT_FOUND);
-    }
-
 //    IllegalArgumentException
 
 }
