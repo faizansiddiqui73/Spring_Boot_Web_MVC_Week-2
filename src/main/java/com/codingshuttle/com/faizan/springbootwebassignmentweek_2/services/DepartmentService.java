@@ -21,16 +21,17 @@ public class DepartmentService {
         this.departmentRepository = departmentRepository;
         this.modelMapper = modelMapper;
     }
-        public List<DepartmentDTO> getAllDepartments() {
+
+    public List<DepartmentDTO> getAllDepartments() {
         List<DepartmentEntity> departmentEntities = departmentRepository.findAll();
         return departmentEntities
                 .stream()
-                .map(departmentEntity -> modelMapper.map(departmentEntity,DepartmentDTO.class))
+                .map(departmentEntity -> modelMapper.map(departmentEntity, DepartmentDTO.class))
                 .collect(Collectors.toList());
     }
 
     public Optional<DepartmentDTO> getDepartment(Long id) {
-        return departmentRepository.findById(id).map(departmentEntity -> modelMapper.map(departmentEntity,DepartmentDTO.class));
+        return departmentRepository.findById(id).map(departmentEntity -> modelMapper.map(departmentEntity, DepartmentDTO.class));
 //        DepartmentEntity departmentEntity = departmentRepository.findById(id).orElse(null);
 //        return modelMapper.map(departmentEntity,DepartmentDTO.class);
     }
@@ -38,23 +39,25 @@ public class DepartmentService {
 
     public DepartmentDTO createDepartment(DepartmentDTO inputDepartment) {
         //convert
-        DepartmentEntity  toSaveDepartment = modelMapper.map(inputDepartment,DepartmentEntity.class);
+        DepartmentEntity toSaveDepartment = modelMapper.map(inputDepartment, DepartmentEntity.class);
         DepartmentEntity departmentEntity = departmentRepository.save(toSaveDepartment);
-        return modelMapper.map(departmentEntity,DepartmentDTO.class);
+        return modelMapper.map(departmentEntity, DepartmentDTO.class);
     }
-    public boolean isExistsByDepartment(Long departmentId){
+
+    public boolean isExistsByDepartment(Long departmentId) {
         boolean exists = departmentRepository.existsById(departmentId);
-        if(!exists) throw new ResourceNotFoundException("Department Not Found " + departmentId);
+        if (!exists) throw new ResourceNotFoundException("Department Not Found " + departmentId);
+        return true;
     }
 
     public DepartmentDTO updateDepartment(DepartmentDTO departmentDTO) {
         Long departmentId = departmentDTO.getId();
         isExistsByDepartment(departmentId);
 //       DepartmentEntity findingDepartment = departmentRepository.findById(departmentId).orElse(null);
-         DepartmentEntity conversionToEntity = modelMapper.map(departmentDTO,DepartmentEntity.class);
-         conversionToEntity.setId(departmentId);
-         DepartmentEntity toSaveEntity = departmentRepository.save(conversionToEntity);
-         return modelMapper.map(conversionToEntity,DepartmentDTO.class);
+        DepartmentEntity conversionToEntity = modelMapper.map(departmentDTO, DepartmentEntity.class);
+        conversionToEntity.setId(departmentId);
+        DepartmentEntity toSaveEntity = departmentRepository.save(conversionToEntity);
+        return modelMapper.map(conversionToEntity, DepartmentDTO.class);
     }
 
     public Boolean deleteDepartmentById(DepartmentDTO departmentDTO) {
