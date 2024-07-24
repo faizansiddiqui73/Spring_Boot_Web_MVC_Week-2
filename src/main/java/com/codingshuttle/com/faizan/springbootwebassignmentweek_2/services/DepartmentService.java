@@ -7,6 +7,7 @@ import com.codingshuttle.com.faizan.springbootwebassignmentweek_2.repositories.D
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,6 +39,8 @@ public class DepartmentService {
 
 
     public DepartmentDTO createDepartment(DepartmentDTO inputDepartment) {
+        //setting the timeStamp
+        inputDepartment.setCreatedAt(LocalDateTime.now());
         //convert
         DepartmentEntity toSaveDepartment = modelMapper.map(inputDepartment, DepartmentEntity.class);
         DepartmentEntity departmentEntity = departmentRepository.save(toSaveDepartment);

@@ -12,6 +12,7 @@ import org.hibernate.validator.constraints.CreditCardNumber;
 import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ public class DepartmentDTO {
     private Long id;
 
 
-    @NotBlank(message = "Department filed cannot be blank")
+    @NotBlank(message = "Title of Department field cannot be blank")
     @Size(min = 3, max = 25, message = "Number of characters in title should be in the range of [3,25]")
     private String title;
 
@@ -35,7 +36,7 @@ public class DepartmentDTO {
     private Boolean isActive;
 
     @PastOrPresent(message = "Department cannot be in future")
-    @NotNull(message = "Field cannot be null")
+//    @NotNull(message = "Field cannot be null")
     private LocalDate createdAt;
 
     @NotNull(message = "Salary filed cannot be empty") //no whitespaces
