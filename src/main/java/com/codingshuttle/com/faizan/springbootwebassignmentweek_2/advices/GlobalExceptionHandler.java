@@ -37,6 +37,7 @@ public class GlobalExceptionHandler {
         //Now i need to handle all the errors what i define in request body if any argument is missed then it will come in list
         //MethodArgumentNotValidException. Exception to be thrown when a method argument fails validation
         // perhaps as a result of @Valid style validation, or perhaps because it is required.'
+        //can also known as input validation errors
         List<String> errors =  exception //for detailed messages
                 .getAllErrors()
                 .stream()
@@ -45,7 +46,8 @@ public class GlobalExceptionHandler {
         ApiError apiError = ApiError
                 .builder()
                 .status(HttpStatus.BAD_REQUEST)
-                .message(errors.toString())
+                .message("Input Validation Errors: ")
+                .subErrors(errors)
                 .build();
         return new ResponseEntity<>(apiError,HttpStatus.BAD_REQUEST);
 
