@@ -7,7 +7,7 @@ import com.codingshuttle.com.faizan.springbootwebassignmentweek_2.repositories.D
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,7 +40,7 @@ public class DepartmentService {
 
     public DepartmentDTO createDepartment(DepartmentDTO inputDepartment) {
         //setting the timeStamp
-        inputDepartment.setCreatedAt(LocalDateTime.now());
+        inputDepartment.setCreatedAt(LocalDate.now());
         //convert
         DepartmentEntity toSaveDepartment = modelMapper.map(inputDepartment, DepartmentEntity.class);
         DepartmentEntity departmentEntity = departmentRepository.save(toSaveDepartment);
@@ -49,7 +49,7 @@ public class DepartmentService {
 
     public boolean isExistsByDepartment(Long departmentId) {
         boolean exists = departmentRepository.existsById(departmentId);
-        if (!exists) throw new ResourceNotFoundException("Department Not Found " + departmentId);
+        if (!exists) throw new ResourceNotFoundException("The Department with requested id: "+ departmentId +" is not found");
         return true;
     }
 

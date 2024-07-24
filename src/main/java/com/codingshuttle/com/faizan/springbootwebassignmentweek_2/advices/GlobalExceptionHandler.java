@@ -14,26 +14,30 @@ import java.util.stream.Collectors;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ApiError> handleDepartmentNotFound(ResourceNotFoundException exception) {
+    public ResponseEntity<ApiResponse<?>> handleDepartmentNotFound(ResourceNotFoundException exception) {
         ApiError apiError = ApiError
                 .builder()
                 .status(HttpStatus.NOT_FOUND)
-                .message("Resource Not Found")
+                .message(exception.getMessage())
                 .build();
-        return new ResponseEntity<>(apiError,HttpStatus.NOT_FOUND);
+//        return new ResponseEntity<>(apiError,HttpStatus.NOT_FOUND);
+        return buildErrorResponseEntity(apiError);
     }
+
     @ExceptionHandler(Exception.class) //this will handle all type of exception
-    public ResponseEntity<ApiError> handleInternalServerError(Exception exception){
+    public ResponseEntity<ApiResponse<?>> handleInternalServerError(Exception exception){
         ApiError apiError = ApiError
                 .builder()
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .message(exception.getMessage())
                 .build();
-        return new ResponseEntity<>(apiError,HttpStatus.INTERNAL_SERVER_ERROR);
+//        return new ResponseEntity<>(apiError,HttpStatus.INTERNAL_SERVER_ERROR);
+        return buildErrorResponseEntity(apiError);
     }
 
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiError> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
+    public ResponseEntity<ApiResponse<?>> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception){
         //Now i need to handle all the errors what i define in request body if any argument is missed then it will come in list
         //MethodArgumentNotValidException. Exception to be thrown when a method argument fails validation
         // perhaps as a result of @Valid style validation, or perhaps because it is required.'
@@ -49,9 +53,14 @@ public class GlobalExceptionHandler {
                 .message("Input Validation Errors: ")
                 .subErrors(errors)
                 .build();
-        return new ResponseEntity<>(apiError,HttpStatus.BAD_REQUEST);
+//        return new ResponseEntity<>(apiError,HttpStatus.BAD_REQUEST);
 
+        return buildErrorResponseEntity(apiError);
     }
+    private ResponseEntity<ApiResponse<?>> buildErrorResponseEntity(ApiError apiError) {
+        return new ResponseEntity<>(new ApiResponse<>(apiError),apiError.getStatus());
+    }
+
 }
 /*
     Resource Not Found Exception (404) arise : Getting a wrong id which is not in db,

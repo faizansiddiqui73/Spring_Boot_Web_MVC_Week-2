@@ -63,7 +63,7 @@ public class DepartmentController {
         Optional<DepartmentDTO> departmentDTO = departmentService.getDepartment(id);
         return departmentDTO
                 .map(departmentDTO1 -> new ResponseEntity<>(departmentDTO1, HttpStatus.OK))
-                .orElseThrow(() -> new ResourceNotFoundException("Department Not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("The Department with requested id: "+ id +" is not found"));
 //        return departmentService.getDepartment(id);
     }
 
