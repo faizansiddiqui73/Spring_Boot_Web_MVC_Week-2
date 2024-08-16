@@ -60,7 +60,7 @@ public class DepartmentService {
         DepartmentEntity conversionToEntity = modelMapper.map(departmentDTO, DepartmentEntity.class);
         conversionToEntity.setId(departmentId);
         DepartmentEntity toSaveEntity = departmentRepository.save(conversionToEntity);
-        return modelMapper.map(conversionToEntity, DepartmentDTO.class);
+        return modelMapper.map(toSaveEntity, DepartmentDTO.class);
     }
 
     public Boolean deleteDepartmentById(DepartmentDTO departmentDTO) {
