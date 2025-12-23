@@ -63,15 +63,24 @@ public class GlobalExceptionHandler {
 
 }
 /*
+   MethodArgumentNotValidException. Exception to be thrown when a method argument fails validation - 400 Bad Request
+   Validation failure = 400
+   400 Bad Request indicates that the server cannot process the request due to invalid syntax, missing fields, or failed validation on the client side.
+
     Resource Not Found Exception (404) arise : Getting a wrong id which is not in db,
     Suppose if we are updating(Put) or deleting(delete) then this will arise coz we in both the cases we need to find something in db
     so we create one method for that existing and throw exception.
 
-    Internal Server Error (500) arise : when we are defining request body and something is missing then it arises
-    happens in post,put,patch
+   A 500 Internal Server Error occurs when the server encounters an unexpected condition it cannot handle.
+   In POST, PUT, or PATCH requests, it often happens when required request body fields are missing and the server
+   lacks proper validation or exception handling.
+   Application crash/bug = 500
 
-    This is replaced by Method not valid Argument
-    An internal server error, also known as a 500 Internal Server Error, is a generic HTTP status code that indicates a problem
-    with the web server's side. It can occur when the server is unable to fulfill a request due to an unexpected condition
+   This is replaced by Method not valid Argument(400)
 
+			Exception                        	    Meaning	                             HTTP Status
+			MethodArgumentNotValidException	      Invalid request data	                 400
+			ResourceNotFoundException	            Resource does not exist	               404
+			AccessDeniedException	                Unauthorized access	                   403
+			Internal Server Error	                Server bug	                           500
  */
