@@ -75,7 +75,9 @@ public class DepartmentDTO {
     //For API Checking
     /*
  {
-  DepartementRepository
+  "title" : "Electronics",
+  "email" : "electronics@gmail.com",
+  "isActive":true,
   "createdAt":"2024-07-23",
   "salary" : 54000.00,
   "hiredAt":"2021-09-09",
